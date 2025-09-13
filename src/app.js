@@ -1,28 +1,28 @@
 const express = require("express");
-
+const connectDB = require("./config/database");
 const app = express();
+const cookieParser = require("cookie-parser");
 
-app.use("/user", (req, res) => {
-  res.send("HHAHAHAHAHAH ");
-});
+const authRouter = require("./routers/auth");
+const profileRouter = require("./routers/profile");
+const requestRouter = require("./routers/request");
+const userRouter = require("./routers/user");
 
-app.get("/user", (req, res) => {
-  res.send({ firstName: "Yash", lastName: "Mankar" });
-});
+app.use(express.json());
+app.use(cookieParser());
 
-app.post("/user ", (req, res) => {
-  // saving to DB
-  res.send("Data successfully saved to database!");
-});
+app.use("/", authRouter);
+app.use("/", profileRouter);
+app.use("/", requestRouter);
+app.use("/", userRouter);
 
-app.delete("/user", (req, res) => {
-  res.send("Deleted successfully");
-});
-
-app.use("/test", (req, res) => {
-  res.send("Hello from server");
-});
-
-app.listen(3000, () => {
-  console.log("Server is listening on port 3000");
-});
+connectDB()
+  .then(() => {
+    console.log("Database connection established...");
+    app.listen(7777, () => {
+      console.log("server is running at port 7777");
+    });
+  })
+  .catch((err) => {
+    console.error("Database cannot be connected!!");
+  });
