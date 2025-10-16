@@ -57,6 +57,11 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+
+    about: {
+      type: String,
+      default: "Hello Everyone",
+    },
   },
   { timestamps: true }
 );
