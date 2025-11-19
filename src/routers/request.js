@@ -6,6 +6,8 @@ const { userAuth } = require("../middlewares/auth");
 
 const User = require("../models/user");
 
+const sendEmail = require("../utils/sendEmail");
+
 const requestRouter = express.Router();
 
 requestRouter.post(
@@ -50,6 +52,11 @@ requestRouter.post(
       });
 
       const data = await connectionRequest.save();
+
+      const emailRes = await sendEmail.run("A new friend request from "+ req.user.firstName,
+        req.user.firstName + " " + status + " " + toUser.firstName
+      );
+      console.log(emailRes);
 
       res.json({
         message: req.user.firstName + " " + status + " " + toUser.firstName,
