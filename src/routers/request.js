@@ -53,10 +53,7 @@ requestRouter.post(
 
       const data = await connectionRequest.save();
 
-      const emailRes = await sendEmail.run(
-        "A new friend request from " + req.user.firstName,
-        req.user.firstName + " " + status + " " + toUser.firstName
-      );
+      const emailRes = await sendEmail.run();
       console.log(emailRes);
 
       res.json({

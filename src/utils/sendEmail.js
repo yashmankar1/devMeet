@@ -1,5 +1,5 @@
 const { SendEmailCommand } = require("@aws-sdk/client-ses");
-const { sesClient } = require("./sesClient.js");
+const { sesClient } = require("./sesClient");
 
 const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
   return new SendEmailCommand({
@@ -24,21 +24,21 @@ const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
       },
     },
     Source: fromAddress,
-    ReplyToAddresses: [
-      /* more items */
-    ],
+    ReplyToAddresses: [],
   });
 };
 
 const run = async (subject, body) => {
   const sendEmailCommand = createSendEmailCommand(
     "yashmankar9361@gmail.com",
-    "yash349@gmail.com",
+    "yash@devmeetup.me",
     subject,
     body
   );
 
   try {
+    console.log("Sending email now...");
+
     return await sesClient.send(sendEmailCommand);
   } catch (caught) {
     if (caught instanceof Error && caught.name === "MessageRejected") {
