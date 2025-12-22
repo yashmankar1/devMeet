@@ -41,14 +41,14 @@ const userSchema = new mongoose.Schema(
           throw new Error("Gender data is not valid");
         }
       },
+    },
 
-      isPremium: {
-        type: Boolean,
-        default: false,
-      },
-      membershipType: {
-        type: String,
-      },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
+    membershipType: {
+      type: String,
     },
 
     skills: {
