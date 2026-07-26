@@ -20,7 +20,8 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-  }),
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  })
 );
 
 app.use(express.json());
@@ -31,6 +32,12 @@ app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
 app.use("/", chatRouter);
+
+// Global error handler — catches anything that slips through
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({ message: err.message || "Internal server error" });
+});
 
 const server = http.createServer(app);
 initializeSocket(server);

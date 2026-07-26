@@ -5,10 +5,10 @@ const { userAuth } = require("../middlewares/auth");
 const chatRouter = express.Router();
 
 chatRouter.get("/chat/:targetUserId", userAuth, async (req, res) => {
-  const { targetUserId } = req.params;
-  const userId = req.user._id;
-
   try {
+    const { targetUserId } = req.params;
+    const userId = req.user._id;
+
     let chat = await Chat.findOne({
       participants: { $all: [userId, targetUserId] },
     }).populate({
@@ -21,13 +21,12 @@ chatRouter.get("/chat/:targetUserId", userAuth, async (req, res) => {
         participants: [userId, targetUserId],
         messages: [],
       });
-
       await chat.save();
     }
 
     res.json(chat);
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Failed to load chat, please try again" });
   }
 });
 
