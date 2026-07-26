@@ -5,28 +5,30 @@ const User = require("../models/user");
 
 const authRouter = express.Router();
 
-authRouter.post("/signUp", async (req, res) => {
+authRouter.post("/signup", async (req, res) => {
   try {
     validateSignUp(req);
     const { firstName, lastName, emailId, password } = req.body;
-    const passwordHash = await bcrypt.hash(password, 12);
 
-    const user = new User({
-      firstName,
-      lastName,
-      emailId,
-      password: passwordHash,
-    });
+    // Check if email already exists
+    const existingUser = await User.findOne({ emailId });
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already registered. Please login." });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 12);
+    const user = new User({ firstName, lastName, emailId, password: passwordHash });
     const savedUser = await user.save();
     const token = await savedUser.getJWT();
 
     res.cookie("token", token, {
       expires: new Date(Date.now() + 8 * 3600000),
+      httpOnly: true,
     });
 
-    res.json({ message: "User Added successfully", data: savedUser });
+    res.status(201).json({ message: "Account created successfully!", data: savedUser });
   } catch (error) {
-    res.status(400).send("Error: " + error.message);
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -34,32 +36,35 @@ authRouter.post("/login", async (req, res) => {
   try {
     const { emailId, password } = req.body;
 
-    const user = await User.findOne({ emailId: emailId });
+    if (!emailId || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
 
+    const user = await User.findOne({ emailId });
     if (!user) {
-      throw new Error("Invalid credentials!");
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const isPasswordValid = await user.validatePassword(password);
-
-    if (isPasswordValid) {
-      const token = await user.getJWT();
-      res.cookie("token", token, {
-        expires: new Date(Date.now() + 8 * 3600000),
-      });
-
-      res.send(user);
-    } else {
-      throw new Error("Invalid credentials!");
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid email or password" });
     }
+
+    const token = await user.getJWT();
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 8 * 3600000),
+      httpOnly: true,
+    });
+
+    res.json(user);
   } catch (error) {
-    res.status(400).send("Error: " + error.message);
+    res.status(500).json({ message: "Something went wrong, please try again" });
   }
 });
 
-authRouter.post("/logout", async (req, res) => {
+authRouter.post("/logout", (req, res) => {
   res.cookie("token", null, { expires: new Date(Date.now()) });
-  res.send("Logout successful!");
+  res.json({ message: "Logged out successfully" });
 });
 
 module.exports = authRouter;
