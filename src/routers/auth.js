@@ -5,6 +5,13 @@ const User = require("../models/user");
 
 const authRouter = express.Router();
 
+const cookieOptions = {
+  expires: new Date(Date.now() + 8 * 3600000),
+  httpOnly: true,
+  sameSite: "none",
+  secure: true,
+};
+
 authRouter.post("/signup", async (req, res) => {
   try {
     validateSignUp(req);
@@ -20,11 +27,7 @@ authRouter.post("/signup", async (req, res) => {
     const savedUser = await user.save();
     const token = await savedUser.getJWT();
 
-    res.cookie("token", token, {
-      expires: new Date(Date.now() + 8 * 3600000),
-      httpOnly: true,
-    });
-
+    res.cookie("token", token, cookieOptions);
     res.status(201).json({ message: "Account created successfully!", data: savedUser });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -50,11 +53,7 @@ authRouter.post("/login", async (req, res) => {
     }
 
     const token = await user.getJWT();
-    res.cookie("token", token, {
-      expires: new Date(Date.now() + 8 * 3600000),
-      httpOnly: true,
-    });
-
+    res.cookie("token", token, cookieOptions);
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong, please try again" });
@@ -62,7 +61,12 @@ authRouter.post("/login", async (req, res) => {
 });
 
 authRouter.post("/logout", (req, res) => {
-  res.cookie("token", null, { expires: new Date(Date.now()) });
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+    sameSite: "none",
+    secure: true,
+  });
   res.json({ message: "Logged out successfully" });
 });
 
