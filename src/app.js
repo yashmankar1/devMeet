@@ -16,9 +16,22 @@ const paymentRouter = require("./routers/payment");
 const initializeSocket = require("./utils/socket");
 const chatRouter = require("./routers/chat");
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://devmeet-ten.vercel.app",
+  "https://devmeetup.me",
+  "https://www.devmeetup.me",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   })
@@ -33,6 +46,7 @@ app.use("/", userRouter);
 app.use("/", paymentRouter);
 app.use("/", chatRouter);
 
+// Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).json({ message: err.message || "Internal server error" });
