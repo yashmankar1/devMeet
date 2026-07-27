@@ -33,7 +33,6 @@ app.use("/", userRouter);
 app.use("/", paymentRouter);
 app.use("/", chatRouter);
 
-// Global error handler — catches anything that slips through
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).json({ message: err.message || "Internal server error" });

@@ -72,10 +72,6 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
 
     await user.save();
 
-    // if (req.body.event == "payment.captured") {
-    // }
-    // if (req.body.event == "payment.failed") {
-    // }
 
     return res.status(200).json({ msg: "Webhook recived successfully" });
   } catch (error) {

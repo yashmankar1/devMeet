@@ -21,7 +21,7 @@ const userAuth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    // JWT errors: TokenExpiredError, JsonWebTokenError
+    
     if (err.name === "TokenExpiredError") {
       return res.status(401).json({ message: "Session expired, please login again" });
     }

@@ -35,7 +35,6 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res)
     const connectionRequest = new ConnectionRequest({ fromUserId, toUserId, status });
     const data = await connectionRequest.save();
 
-    // Send email notification (non-blocking — don't fail request if email fails)
     try {
       const emailRes = await sendEmail.run();
       console.log(emailRes);

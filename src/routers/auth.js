@@ -10,7 +10,6 @@ authRouter.post("/signup", async (req, res) => {
     validateSignUp(req);
     const { firstName, lastName, emailId, password } = req.body;
 
-    // Check if email already exists
     const existingUser = await User.findOne({ emailId });
     if (existingUser) {
       return res.status(409).json({ message: "Email already registered. Please login." });
