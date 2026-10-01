@@ -1,15 +1,15 @@
-🔧 devMeet — Backend
+# 🔧 devMeet — Backend
 
 The backend API for **devMeet**, a Tinder-style social networking platform for developers.
 
 It provides authentication, developer profiles, connection requests, real-time chat, premium membership, and other REST APIs used by the devMeet frontend.
 
-🔗 Live Demo: [devmeetup.me](https://devmeetup.me)
-💻 Frontend Repo: [yashmankar1/devMeet-web](https://github.com/yashmankar1/devMeet-web)
+🔗 **Live Demo:** [devmeetup.me](https://devmeetup.me)
+💻 **Frontend Repo:** [yashmankar1/devMeet-web](https://github.com/yashmankar1/devMeet-web)
 
 ---
 
-✨ Features
+## ✨ Features
 
 * 🔐 JWT authentication with HTTP-only cookies
 * 👤 User registration, login, profile management, and authentication
@@ -24,23 +24,23 @@ It provides authentication, developer profiles, connection requests, real-time c
 
 ---
 
-🛠️ Tech Stack
+## 🛠️ Tech Stack
 
-* Node.js — JavaScript runtime
-* Express.js — Backend framework
-* MongoDB — Database
-* Mongoose — ODM
-* JWT — Authentication
-* HTTP-only Cookies — Secure session/token storage
-* Socket.io — Real-time communication
-* Razorpay — Payment integration
-* Render — Backend deployment
+* **Node.js** — JavaScript runtime
+* **Express.js** — Backend framework
+* **MongoDB** — Database
+* **Mongoose** — ODM
+* **JWT** — Authentication
+* **HTTP-only Cookies** — Secure session/token storage
+* **Socket.io** — Real-time communication
+* **Razorpay** — Payment integration
+* **Render** — Backend deployment
 
 ---
 
-🔐 Authentication
+## 🔐 Authentication
 
-The application uses JWT-based authentication with HTTP-only cookie*.
+The application uses **JWT-based authentication with HTTP-only cookies**.
 
 Authentication flow:
 
@@ -66,17 +66,17 @@ Protected routes verify the authenticated user before allowing access to private
 
 ---
 
-💬 Real-Time Chat
+## 💬 Real-Time Chat
 
-Socket.io is used for real-time one-to-one communication.
+**Socket.io** is used for real-time one-to-one communication.
 
 The backend manages socket connections and enables connected users to send and receive messages without repeatedly polling the server.
 
 ---
 
-💳 Razorpay Integration
+## 💳 Razorpay Integration
 
-Premium membership uses Razorpay for payments.
+Premium membership uses **Razorpay** for payments.
 
 The backend:
 
@@ -90,9 +90,9 @@ Payment verification is handled server-side rather than trusting the client.
 
 ---
 
-🗄️ Database
+## 🗄️ Database
 
-The application uses MongoDB with Mongoose.
+The application uses **MongoDB with Mongoose**.
 
 The backend manages data such as:
 
@@ -106,28 +106,28 @@ Mongoose schemas and models are used to structure and interact with the database
 
 ---
 
-🚀 Run Locally
+## 🚀 Run Locally
 
- Prerequisites
+### Prerequisites
 
 * Node.js 20+
 * MongoDB / MongoDB Atlas
 * Razorpay account for payment functionality
 
- Clone the repository
+### Clone the repository
 
 ```bash
 git clone https://github.com/yashmankar1/devMeet.git
 cd devMeet
 ```
 
- Install dependencies
+### Install dependencies
 
 ```bash
 npm install
 ```
 
- Environment Variables
+### Environment Variables
 
 Create a `.env` file:
 
@@ -142,9 +142,9 @@ RAZORPAY_KEY_SECRET=your_razorpay_key_secret
 
 Use the exact variable names required by your backend code.
 
-Never commit `.env` files or expose secrets in your repository.
+**Never commit `.env` files or expose secrets in your repository.**
 
- Start the server
+### Start the server
 
 ```bash
 npm run dev
@@ -158,11 +158,11 @@ http://localhost:7777
 
 ---
 
-🌐 Deployment
+## 🌐 Deployment
 
-The backend is deployed on Render and uses:
+The backend is deployed on **Render** and uses:
 
-* MongoDB Atlas for database hosting
+* **MongoDB Atlas** for database hosting
 * Environment variables for production secrets
 * CORS configuration for frontend communication
 * HTTP-only cookies for authentication
@@ -170,7 +170,7 @@ The backend is deployed on Render and uses:
 
 ---
 
-📚 What I Learned
+## 📚 What I Learned
 
 * Building REST APIs with Node.js and Express
 * Designing MongoDB schemas with Mongoose
@@ -185,7 +185,7 @@ The backend is deployed on Render and uses:
 
 ---
 
-👨‍💻 Author
+## 👨‍💻 Author
 
 **Yash Mankar**
 
