@@ -2,9 +2,9 @@
 
 The backend API for **devMeet**, a Tinder-style social networking platform for developers.
 
-It provides authentication, developer profiles, connection requests, real-time chat, premium membership, and other REST APIs used by the devMeet frontend.
+It provides authentication, developer profiles, connection requests, real-time chat, premium membership, and REST APIs used by the devMeet frontend.
 
-🔗 **Live Demo:** [devmeetup.me](https://devmeetup.me)
+🔗 **Live Demo:** [devmeetup.me](https://devmeetup.me/)
 💻 **Frontend Repo:** [yashmankar1/devMeet-web](https://github.com/yashmankar1/devMeet-web)
 
 ---
@@ -12,11 +12,11 @@ It provides authentication, developer profiles, connection requests, real-time c
 ## ✨ Features
 
 * 🔐 JWT authentication with HTTP-only cookies
-* 👤 User registration, login, profile management, and authentication
+* 👤 User registration, login, and profile management
 * 🧑‍💻 Developer feed and profile APIs
 * 🤝 Connection request management
 * 💬 Real-time messaging with Socket.io
-* 💳 Razorpay premium membership integration
+* 💳 Premium membership with Razorpay
 * 🛡️ Authentication and authorization for protected routes
 * 🗄️ MongoDB database with Mongoose
 * 🌐 RESTful API architecture
@@ -31,10 +31,36 @@ It provides authentication, developer profiles, connection requests, real-time c
 * **MongoDB** — Database
 * **Mongoose** — ODM
 * **JWT** — Authentication
-* **HTTP-only Cookies** — Secure session/token storage
+* **HTTP-only Cookies** — Token storage
 * **Socket.io** — Real-time communication
 * **Razorpay** — Payment integration
 * **Render** — Backend deployment
+
+---
+
+## 🏗️ Architecture
+
+```text
+                    ┌──────────────────┐
+                    │   React Frontend │
+                    │    (Vercel)      │
+                    └────────┬─────────┘
+                             │
+                       REST API / Socket.io
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │  Express Server  │
+                    │     Node.js      │
+                    └────┬─────┬───┬───┘
+                         │     │   │
+              ┌──────────┘     │   └──────────┐
+              ▼                ▼              ▼
+       ┌────────────┐   ┌────────────┐  ┌────────────┐
+       │  MongoDB   │   │  Socket.io │  │  Razorpay  │
+       │  + Mongoose│   │    Chat    │  │  Payments  │
+       └────────────┘   └────────────┘  └────────────┘
+```
 
 ---
 
@@ -55,7 +81,7 @@ Generate JWT
     ↓
 Set HTTP-only Cookie
     ↓
-Protected API Requests
+Protected API Request
     ↓
 Verify JWT
     ↓
@@ -70,7 +96,7 @@ Protected routes verify the authenticated user before allowing access to private
 
 **Socket.io** is used for real-time one-to-one communication.
 
-The backend manages socket connections and enables connected users to send and receive messages without repeatedly polling the server.
+The backend manages socket connections and allows connected users to send and receive messages without repeatedly polling the server.
 
 ---
 
